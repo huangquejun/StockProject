@@ -20,7 +20,8 @@ print(now)
 data_stockHistory = 'd:/crawlData/stockDataAll.csv'
 data_stockMark = 'd:/crawlData/stockDataAll_mark.csv'
 isExists = os.path.exists(data_stockMark)
-
+historyFileName = open(data_stockHistory, 'a')
+i=1
 if isExists:
 
     stockMark = pd.read_csv(data_stockMark,dtype={'code': str, 'date': str})
@@ -44,11 +45,18 @@ for stockCode in stockData.index:
     df['code'] = stockCode
     df = df.set_index([df.index,df.code])
     del df['code']
-    if os.path.exists(data_stockHistory):
-        df.to_csv(data_stockHistory, mode='a', header=None)
+    if i==1:
+        df.to_csv(historyFileName)
         f.write(stockCode+','+now+'\n')
         f.flush()
+        i+=1
     else:
-        df.to_csv(data_stockHistory)
+        df.to_csv(historyFileName)
         f.write(stockCode+','+now+'\n')
         f.flush()
+        start = time.clock()
+        df.to_csv(historyFileName, mode='a', header=None)
+        f.write(stockCode+','+now+'\n')
+        f.flush()
+        end = time.clock()
+        print("execute: %f s" % (end - start))
