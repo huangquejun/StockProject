@@ -15,7 +15,7 @@ pymysql.install_as_MySQLdb()
 engine = create_engine('mysql://root:iloveyou@127.0.0.1/stockdata?charset=utf8')
 stockData = pd.read_sql('SELECT * FROM stockdata.stock_basics where timeToMarket<>0;', engine)
 stockData = stockData.set_index('code')
-now = time.strftime("%Y-%m-%d")
+now = '2016-09-27'
 print(now)
 data_stockHistory = 'd:/crawlData/stockDataAll.csv'
 data_stockMark = 'd:/crawlData/stockDataAll_mark.csv'
@@ -25,6 +25,7 @@ if isExists:
 
     stockMark = pd.read_csv(data_stockMark,dtype={'code': str, 'date': str})
     stockMark = stockMark.set_index('code')
+    f= open(data_stockMark,'a')
 else:
     f= open(data_stockMark,'a')
     f.write('code,date\n')
