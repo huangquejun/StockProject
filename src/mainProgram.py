@@ -30,5 +30,7 @@ def getStockDataBookMark():
     pass
 
 if __name__ == "__main__":
+    start = time.clock()
     print(getAndStoreLatestStockData())
-   
+    end = time.clock()
+    print("execute: %f s" % (end - start))
